@@ -1,0 +1,6 @@
+flask
+flask-sqlalchemy
+Flask-Alembic
+Flask-Migrate
+psycopg2
+black
