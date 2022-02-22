@@ -8,4 +8,4 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql:///todo_list"
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
-from models import Todo
+from models import *
