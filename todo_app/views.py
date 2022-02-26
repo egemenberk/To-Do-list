@@ -6,7 +6,6 @@ from schema import TodoSchema
 def create_todo(todo):
     # Get TodoList from user
     todo_list = TodoList.query.filter(TodoList.id == 1).first()
-    print(todo)
     new_todo = Todo(todo_list_id=todo_list.id, **todo)
     todo_schema = TodoSchema()
     db.session.add(new_todo)

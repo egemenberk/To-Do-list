@@ -29,17 +29,19 @@ paths:
       tags:
         - Todo
       operationId: views.create_todo
-      summary: Create Todo objects
+      summary: Create Todo object
       parameters:
         - name: todo
           in: body
           description: Todo to create
-          required: True
+          required: true
           schema:
             $ref: '#/definitions/TodoCreate'
       responses:
         201:
           description: Created
+        400:
+          description: Bad Request
 
   /todo/{todo_id}:
     delete:
@@ -77,3 +79,5 @@ definitions:
         type: string
       completed:
         type: boolean
+    required:
+      - text
