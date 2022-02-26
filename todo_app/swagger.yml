@@ -9,7 +9,25 @@ consumes:
   - application/json
 produces:
   - application/json
-basePath: /api
+
+securityDefinitions:
+  basicAuth:
+    type: basic
+    x-basicInfoFunc: auth.basic_auth
+
+security:
+  - basicAuth: []
+
+responses:
+  401:
+    $ref": '#/responses/UnauthorizedError'
+
+responses:
+  UnauthorizedError:
+    description: Authentication information is missing or invalid
+    headers:
+      WWW_Authenticate:
+        type: string
 
 paths:
   /todo:
