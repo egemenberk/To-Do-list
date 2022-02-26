@@ -54,10 +54,12 @@ class Todo(db.Model):
         else:
             abort(404, f"Todo item with id: {todo_id} is not found")
 
-
-
     @staticmethod
     def complete_todo(todo_id):
-        Todo.query.filter(Todo.id == todo_id).update({
-            "completed": True
-        })
+        todo = Todo.query.filter(Todo.id == todo_id).one_or_none()
+        if todo:
+            todo.completed = True
+            db.session.commit()
+        else:
+            abort(404, f"Todo item with id: {todo_id} is not found")
+

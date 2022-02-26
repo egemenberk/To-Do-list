@@ -61,6 +61,24 @@ paths:
         404:
           description: Not Found
 
+  /todo/{todo_id}/complete:
+    post:
+      tags:
+        - Todo
+      operationId: views.complete_todo
+      summary: Complete Todo object
+      parameters:
+        - name: todo_id
+          type: integer
+          required: true
+          in: path
+          description: Id of the Todo to complete
+      responses:
+        204:
+          description: Updated
+        404:
+          description: Not Found
+
 definitions:
   TodoGet:
     type: array

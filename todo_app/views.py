@@ -20,3 +20,8 @@ def get_todo_items(id=None):
 
 def delete_todo(todo_id):
     Todo.delete_todo(todo_id)
+
+
+def complete_todo(todo_id):
+    Todo.complete_todo(todo_id)
+
