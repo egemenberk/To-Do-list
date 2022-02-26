@@ -1,5 +1,6 @@
 import json
 from flask_sqlalchemy import SQLAlchemy
+from flask import abort
 
 db = SQLAlchemy()
 
@@ -46,7 +47,14 @@ class Todo(db.Model):
 
     @staticmethod
     def delete_todo(todo_id):
-        Todo.query.filter(Todo.id == todo_id).delete()
+        todo = Todo.query.filter(Todo.id == todo_id).one_or_none()
+        if todo:
+            db.session.delete(todo)
+            db.session.commit()
+        else:
+            abort(404, f"Todo item with id: {todo_id} is not found")
+
+
 
     @staticmethod
     def complete_todo(todo_id):

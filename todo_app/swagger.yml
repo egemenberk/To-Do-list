@@ -41,6 +41,24 @@ paths:
         201:
           description: Created
 
+  /todo/{todo_id}:
+    delete:
+      tags:
+        - Todo
+      operationId: views.delete_todo
+      summary: Delete Todo object
+      parameters:
+        - name: todo_id
+          type: integer
+          required: true
+          in: path
+          description: Id of the Todo to delete
+      responses:
+        204:
+          description: Deleted
+        404:
+          description: Not Found
+
 definitions:
   TodoGet:
     type: array

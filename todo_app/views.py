@@ -1,6 +1,7 @@
 from models import TodoList, Todo, db
 from schema import TodoSchema
 
+# Add authentication per User
 
 def create_todo(todo):
     # Get TodoList from user
@@ -18,3 +19,5 @@ def get_todo_items(id=None):
     return TodoSchema(many=True).jsonify(todo_items)
 
 
+def delete_todo(todo_id):
+    Todo.delete_todo(todo_id)
