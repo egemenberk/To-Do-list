@@ -29,7 +29,7 @@ class Todo(db.Model):
 
     def __init__(self, todo_list_id, text, completed=False):
         self.todo_list_id = todo_list_id
-        self.text = completed
+        self.text = text
         self.completed = completed
 
     @staticmethod
