@@ -1,11 +1,15 @@
-from models import TodoList, Todo
+from models import TodoList, Todo, db
 from schema import TodoSchema
 
 
-def create_todo(text, todo_list_id=None):
-    if not todo_list_id:
-        todo_list_id = 2
-    TodoList.add_todo(text, todo_list_id)
+def create_todo(todo):
+    # Get TodoList from user
+    todo_list = TodoList.query.filter(TodoList.id == 1).first()
+    new_todo = Todo(todo_list_id=todo_list.id, **todo)
+    todo_schema = TodoSchema()
+    db.session.add(new_todo)
+    db.session.commit()
+    return todo_schema.jsonify(new_todo)
 
 
 def get_todo_items(id=None):

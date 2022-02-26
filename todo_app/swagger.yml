@@ -1,16 +1,16 @@
 swagger: "2.0"
+#openapi: 3.0.0
 info:
   description: This is the swagger file that goes with our server code
   version: "1.0.0"
   title: Swagger REST Article
+
 consumes:
   - application/json
 produces:
   - application/json
-
 basePath: /api
 
-# Paths supported by the server application
 paths:
   /todo:
     get:
@@ -33,4 +33,24 @@ paths:
                 completed:
                   type: boolean
 
+    post:
+      tags:
+        - Todo
+      operationId: views.create_todo
+      summary: Create Todo objects
+      parameters:
+        - name: todo
+          in: body
+          description: Todo to create
+          required: True
+          schema:
+            type: object
+            properties:
+              text:
+                type: string
+              completed:
+                type: boolean
+      responses:
+        201:
+          description: Created
 
