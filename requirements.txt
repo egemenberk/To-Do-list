@@ -1,6 +1,9 @@
 flask
 flask-sqlalchemy
+flask_marshmallow
 Flask-Alembic
 Flask-Migrate
 psycopg2
 black
+pytest
+connexion[swagger-ui]
