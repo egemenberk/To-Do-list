@@ -7,3 +7,6 @@ flask db init
 flask db migrate
 flask db upgrade
 
+
+# DownSides of the project
+requirements.txt does not include versions, which might introduce dependency issues
