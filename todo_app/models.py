@@ -8,12 +8,17 @@ db = SQLAlchemy()
 class TodoList(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     todos = db.relationship("Todo", backref="todo_list", lazy=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=True)
+
+    def __init__(self, user_id):
+        self.user_id = user_id
 
     @staticmethod
-    def create():
-        todo_list = TodoList()
+    def create(user):
+        todo_list = TodoList(user_id=user.id)
         db.session.add(todo_list)
         db.session.commit()
+        return todo_list
 
     @staticmethod
     def add_todo(todo_list_id, text, completed=False):
@@ -68,7 +73,9 @@ class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
-    password = db.Column(db.String(80))
+    password = db.Column(db.String(120))
+    todo_lists = db.relationship("TodoList", backref="user", lazy=True)
+
 
     def __init__(self, username, password):
         self.username = username
