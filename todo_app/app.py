@@ -1,16 +1,21 @@
 from flask import Flask
+import os
+import connexion
 from flask_migrate import Migrate
 
-from config import app
 from models import db
 
-"""
-app = Flask(__name__, instance_relative_config=True)
-migrate = Migrate(app, db)
-from models import *
-"""
+def create_app():
 
+    connex_app = connexion.App(__name__, specification_dir='./')
+    connex_app.add_api('swagger.yml')
 
-if __name__ == "__main__":
+    app = connex_app.app
+
+    app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql:///todo_list"
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
     db.init_app(app)
-    app.run(debug=True)
+    Migrate(app, db)
+    return app
+

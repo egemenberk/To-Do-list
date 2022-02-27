@@ -1,9 +1,9 @@
 import json
-from flask_sqlalchemy import SQLAlchemy
+from werkzeug.security import generate_password_hash, check_password_hash
 from flask import abort
+from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
-
 
 class TodoList(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -63,3 +63,19 @@ class Todo(db.Model):
         else:
             abort(404, f"Todo item with id: {todo_id} is not found")
 
+
+class User(db.Model):
+    __tablename__ = 'users'
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    password = db.Column(db.String(80))
+
+    def __init__(self, username, password):
+        self.username = username
+        self.password = generate_password_hash(password)
+    
+    def __repr__(self):
+        return f'<User {self.username}>'
+
+    def verify_password(self, pwd):
+        return check_password_hash(self.password, pwd)
