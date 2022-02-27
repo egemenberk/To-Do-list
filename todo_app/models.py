@@ -5,6 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
+
 class TodoList(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     todos = db.relationship("Todo", backref="todo_list", lazy=True)
@@ -44,9 +45,9 @@ class Todo(db.Model):
 
     def __repr__(self):
         todo = {
-            'id': self.id,
-            'text': self.text,
-            'completed': self.completed,
+            "id": self.id,
+            "text": self.text,
+            "completed": self.completed,
         }
         return json.dumps(todo)
 
@@ -70,19 +71,18 @@ class Todo(db.Model):
 
 
 class User(db.Model):
-    __tablename__ = 'users'
+    __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(120))
     todo_lists = db.relationship("TodoList", backref="user", lazy=True)
 
-
     def __init__(self, username, password):
         self.username = username
         self.password = generate_password_hash(password)
-    
+
     def __repr__(self):
-        return f'<User {self.username}>'
+        return f"<User {self.username}>"
 
     def verify_password(self, pwd):
         return check_password_hash(self.password, pwd)
