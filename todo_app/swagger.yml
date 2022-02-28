@@ -43,6 +43,21 @@ paths:
           schema:
             $ref: '#/definitions/TodoGet'
 
+  /todo-list:
+    post:
+      tags:
+        - TodoList
+      operationId: views.create_todo_list
+      summary: Create TodoList object
+      responses:
+        201:
+          description: Created
+          schema:
+            $ref: '#/definitions/TodoListCreate'
+        400:
+          description: Bad Request
+
+  /todo:
     post:
       tags:
         - Todo
@@ -60,7 +75,6 @@ paths:
           description: Created
         400:
           description: Bad Request
-
   /todo/{todo_id}:
     delete:
       tags:
@@ -96,6 +110,25 @@ paths:
           description: Updated
         404:
           description: Not Found
+  /user:
+    post:
+      tags:
+        - User
+      operationId: views.create_user
+      summary: Create User object
+      security: []
+      parameters:
+        - name: user
+          in: body
+          description: User to create
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        201:
+          description: Created
+        400:
+          description: Bad Request
 
 definitions:
   TodoGet:
@@ -117,3 +150,18 @@ definitions:
         type: boolean
     required:
       - text
+  TodoListCreate:
+    type: object
+    properties:
+      id:
+        type: integer
+  User:
+    type: object
+    properties:
+      username:
+        type: string
+      password:
+        type: string
+    required:
+      - username
+      - password
