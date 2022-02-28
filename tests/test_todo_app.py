@@ -23,3 +23,12 @@ def test_auth_fails_without_correct_password(session, test_client, _logged_in_us
 def test_auth_fails_without_headers(session, test_client, _logged_in_user):
     response = test_client.get("todo")
     assert response.status_code == 401
+
+
+def test_create_todo_list(session, test_client, _logged_in_user):
+    headers = {
+        "Authorization": _basic_auth_str(**_logged_in_user),
+    }
+    response = test_client.post("todo-list", headers=headers)
+    assert response.status_code == 201
+    assert TodoList.query.all()[0].id == response.json["id"]

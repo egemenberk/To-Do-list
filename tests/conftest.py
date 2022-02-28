@@ -37,7 +37,8 @@ def db(app, request):
 
     def teardown():
         _db.drop_all()
-        # os.unlink(TESTDB_PATH)
+        if os.path.exists(TESTDB_PATH):
+            os.unlink(TESTDB_PATH)
 
     _db.app = app
     _db.create_all()
@@ -77,4 +78,5 @@ def _logged_in_user(session):
 
 @pytest.fixture(scope="session")
 def test_client(app):
+    # TODO add headers to each by default
     return app.test_client()
