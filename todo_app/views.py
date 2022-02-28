@@ -1,6 +1,7 @@
-from todo_app.models import User, TodoList, Todo, db
-from todo_app.schema import TodoSchema, TodoListSchema
 from flask import abort
+
+from todo_app.models import Todo, TodoList, User, db
+from todo_app.schema import TodoListSchema, TodoSchema
 
 todo_schema = TodoSchema()
 todo_list_schema = TodoListSchema()

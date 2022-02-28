@@ -1,5 +1,6 @@
-from todo_app.models import User
 from flask import abort
+
+from todo_app.models import User
 
 
 def basic_auth(username, password, required_scopes=None):

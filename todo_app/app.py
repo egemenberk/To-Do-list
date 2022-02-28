@@ -1,6 +1,7 @@
-from flask import Flask
 import os
+
 import connexion
+from flask import Flask
 from flask_migrate import Migrate
 
 from todo_app.models import db
