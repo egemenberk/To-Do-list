@@ -1,3 +1,5 @@
+# This conftest.py is fetched from http://alexmic.net/flask-sqlalchemy-pytest/
+
 import os
 import pytest
 
@@ -65,3 +67,18 @@ def session(db, request):
 
     request.addfinalizer(teardown)
     return session
+
+
+@pytest.fixture(scope='function')
+def _logged_in_user(session):
+    from todo_app.views import create_user
+    user = {
+            "username": "test", "password": "pass" }
+    create_user(user)
+    return user
+
+
+@pytest.fixture(scope='session')
+def test_client(app):
+    return app.test_client()
+
