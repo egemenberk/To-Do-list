@@ -13,7 +13,7 @@ produces:
 securityDefinitions:
   basicAuth:
     type: basic
-    x-basicInfoFunc: auth.basic_auth
+    x-basicInfoFunc: todo_app.auth.basic_auth
 
 security:
   - basicAuth: []
@@ -30,38 +30,37 @@ responses:
         type: string
 
 paths:
-  /todo:
-    get:
-      operationId: views.get_todo_items
-      tags:
-        - Todo
-      summary: Get Todo objects
-      description: Get list of todo or single one
-      responses:
-        200:
-          description: Get Items
-          schema:
-            $ref: '#/definitions/TodoGet'
-
+  
   /todo-list:
     post:
       tags:
         - TodoList
-      operationId: views.create_todo_list
+      operationId: todo_app.views.create_todo_list
       summary: Create TodoList object
       responses:
         201:
           description: Created
           schema:
-            $ref: '#/definitions/TodoListCreate'
+            $ref: '#/definitions/TodoList'
         400:
           description: Bad Request
+    get:
+      operationId: todo_app.views.get_todo_list_items
+      tags:
+        - TodoList
+      summary: Get TodoList objects
+      description: Get list of todo_list or single one
+      responses:
+        200:
+          description: Get Items
+          schema:
+            $ref: '#/definitions/TodoList'
 
   /todo:
     post:
       tags:
         - Todo
-      operationId: views.create_todo
+      operationId: todo_app.views.create_todo
       summary: Create Todo object
       parameters:
         - name: todo
@@ -75,11 +74,23 @@ paths:
           description: Created
         400:
           description: Bad Request
+    get:
+      operationId: todo_app.views.get_todo_items
+      tags:
+        - Todo
+      summary: Get Todo objects
+      description: Get list of todo or single one
+      responses:
+        200:
+          description: Get Items
+          schema:
+            $ref: '#/definitions/TodoGet'
+
   /todo/{todo_id}:
     delete:
       tags:
         - Todo
-      operationId: views.delete_todo
+      operationId: todo_app.views.delete_todo
       summary: Delete Todo object
       parameters:
         - name: todo_id
@@ -97,7 +108,7 @@ paths:
     post:
       tags:
         - Todo
-      operationId: views.complete_todo
+      operationId: todo_app.views.complete_todo
       summary: Complete Todo object
       parameters:
         - name: todo_id
@@ -114,7 +125,7 @@ paths:
     post:
       tags:
         - User
-      operationId: views.create_user
+      operationId: todo_app.views.create_user
       summary: Create User object
       security: []
       parameters:
@@ -144,13 +155,16 @@ definitions:
   TodoCreate:
     type: object
     properties:
+      todo_list_id:
+        type: integer
       text:
         type: string
       completed:
         type: boolean
     required:
       - text
-  TodoListCreate:
+      - todo_list_id
+  TodoList:
     type: object
     properties:
       id:

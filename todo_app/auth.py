@@ -1,4 +1,4 @@
-from models import User
+from todo_app.models import User
 from flask import abort
 
 

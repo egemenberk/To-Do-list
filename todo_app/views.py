@@ -1,22 +1,24 @@
-from models import User, TodoList, Todo, db
-from schema import TodoSchema, TodoListSchema
+from todo_app.models import User, TodoList, Todo, db
+from todo_app.schema import TodoSchema, TodoListSchema
+from flask import abort
 
-# Add authentication per User
 todo_schema = TodoSchema()
 todo_list_schema = TodoListSchema()
 
 
-def create_todo(todo):
-    # Get TodoList from user
-    todo_list = TodoList.query.filter(TodoList.id == 1).first()
-    new_todo = Todo(todo_list_id=todo_list.id, **todo)
+def create_todo(todo, user):
+    todo_list_id = todo.get("todo_list_id")
+    todo_list = TodoList.query.filter(TodoList.id == todo_list_id).one_or_none()
+    if not todo_list:
+        abort(404, f"TodoList item with id: {todo_list_id} is not found")
+    new_todo = Todo(**todo)
     db.session.add(new_todo)
     db.session.commit()
     return todo_schema.jsonify(new_todo)
 
 
 def get_todo_items(user, id=None):
-    todo_items = Todo.query.filter().all()
+    todo_items = TodoList.get_todo_items_for_user(user)
     return TodoSchema(many=True).jsonify(todo_items)
 
 
@@ -25,11 +27,13 @@ def get_todo_list_items(user):
     return TodoListSchema(many=True).jsonify(todo_list_items)
 
 
-def delete_todo(todo_id):
+def delete_todo(todo_id, user):
+    # CRITICAL
+    # TODO add permission check if todo belongs to the user
     Todo.delete_todo(todo_id)
 
 
-def complete_todo(todo_id):
+def complete_todo(todo_id, user):
     Todo.complete_todo(todo_id)
 
 

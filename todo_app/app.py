@@ -3,7 +3,7 @@ import os
 import connexion
 from flask_migrate import Migrate
 
-from models import db
+from todo_app.models import db
 
 
 def create_app():

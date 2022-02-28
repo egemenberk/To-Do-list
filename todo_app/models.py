@@ -27,6 +27,14 @@ class TodoList(db.Model):
         db.session.add(todo)
         db.session.commit()
 
+    @staticmethod
+    def get_todo_items_for_user(user):
+        todo_items = []
+        for todo_list in user.todo_lists:
+            todo_item_list = Todo.query.filter(Todo.todo_list_id == todo_list.id).all()
+            todo_items += todo_item_list
+        return todo_items
+
 
 class Todo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
