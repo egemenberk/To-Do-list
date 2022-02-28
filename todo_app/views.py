@@ -14,7 +14,7 @@ def create_todo(todo, user):
     new_todo = Todo(**todo)
     db.session.add(new_todo)
     db.session.commit()
-    return todo_schema.jsonify(new_todo)
+    return todo_schema.jsonify(new_todo), 201
 
 
 def get_todo_items(user, id=None):
@@ -45,4 +45,4 @@ def create_user(user):
 
 def create_todo_list(user):
     todo_list = TodoList.create(user)
-    return todo_list_schema.jsonify(todo_list)
+    return todo_list_schema.jsonify(todo_list), 201
