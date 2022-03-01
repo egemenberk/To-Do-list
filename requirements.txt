@@ -6,4 +6,5 @@ Flask-Migrate
 psycopg2
 black
 pytest
+factory_boy
 connexion[swagger-ui]

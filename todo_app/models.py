@@ -12,9 +12,6 @@ class TodoList(db.Model):
     todos = db.relationship("Todo", backref="todo_list", lazy=True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=True)
 
-    def __init__(self, user_id):
-        self.user_id = user_id
-
     @staticmethod
     def create(user):
         todo_list = TodoList(user_id=user.id)
@@ -43,10 +40,12 @@ class Todo(db.Model):
     completed = db.Column(db.Boolean())
     todo_list_id = db.Column(db.Integer, db.ForeignKey("todo_list.id"), nullable=True)
 
-    def __init__(self, todo_list_id, text, completed=False):
-        self.todo_list_id = todo_list_id
-        self.text = text
-        self.completed = completed
+    @staticmethod
+    def create(todo_list, text, completed):
+        new_todo = Todo(text, completed, todo_list.id)
+        db.session.add(new_todo)
+        db.session.commit()
+        return new_todo
 
     @staticmethod
     def get_all_items():
