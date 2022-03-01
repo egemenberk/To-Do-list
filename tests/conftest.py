@@ -4,7 +4,13 @@ import os
 import pytest
 
 from todo_app.app import create_app
+from tests.factory import UserFactory
 from todo_app.models import db as _db
+from flask.testing import FlaskClient
+
+from requests.auth import _basic_auth_str
+from todo_app.views import create_user
+from todo_app.models import Todo, TodoList
 
 
 TESTDB = "test_project.db"
@@ -29,7 +35,7 @@ def app(request):
     return app
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def db(app, request):
     """Session-wide test database."""
     if os.path.exists(TESTDB_PATH):
@@ -66,17 +72,38 @@ def session(db, request):
     request.addfinalizer(teardown)
     return session
 
+@pytest.fixture(scope="function")
+def _user():
+    return {"username": "test", "password": "pass"}
+
 
 @pytest.fixture(scope="function")
-def _logged_in_user(session):
-    from todo_app.views import create_user
+def user(session, _user):
+    new_user = UserFactory(**_user)
+    session.add(new_user)
+    session.commit()
+    return new_user
 
-    user = {"username": "test", "password": "pass"}
-    create_user(user)
-    return user
+
+@pytest.fixture(scope="function")
+def test_client(app, user, _user):
+    client = app.test_client()
+    client.environ_base['HTTP_AUTHORIZATION'] = _basic_auth_str(**_user)
+    return client
 
 
-@pytest.fixture(scope="session")
-def test_client(app):
-    # TODO add headers to each by default
-    return app.test_client()
+@pytest.fixture(scope="function")
+def todo_list(session, user):
+    new_todo_list = TodoList(user_id=user.id)
+    session.add(new_todo_list)
+    session.commit()
+    return new_todo_list
+
+
+@pytest.fixture(scope="function")
+def todo(session, user, todo_list):
+    new_todo = Todo(todo_list_id=todo_list.id, text="xxx")
+    session.add(new_todo)
+    session.commit()
+    return new_todo
+
