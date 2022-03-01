@@ -1,5 +1,6 @@
-from todo_app.models import Todo, TodoList, User
 from requests.auth import _basic_auth_str
+from todo_app.models import Todo, TodoList, User
+
 from tests.factory import TodoFactory, TodoListFactory, UserFactory
 
 
@@ -28,7 +29,9 @@ def test_create_todo_list(session, test_client, user):
 
 
 def test_create_todo(session, test_client, user, todo_list):
-    response = test_client.post("todo", json={"todo_list_id": todo_list.id, "text": "text", "completed": False})
+    response = test_client.post(
+        "todo", json={"todo_list_id": todo_list.id, "text": "text", "completed": False}
+    )
     assert response.status_code == 201
     assert Todo.query.all()[0].id == response.json["id"]
 
@@ -70,5 +73,3 @@ def test_delete_not_existing_todo(session, test_client, user, todo):
     assert len(Todo.query.all()) > 0
     response = test_client.delete(f"todo/{99999}")
     assert response.status_code == 404
-
-

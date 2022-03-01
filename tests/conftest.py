@@ -1,17 +1,16 @@
 # This conftest.py is fetched from http://alexmic.net/flask-sqlalchemy-pytest/
 
 import os
+
 import pytest
-
-from todo_app.app import create_app
-from tests.factory import UserFactory
-from todo_app.models import db as _db
 from flask.testing import FlaskClient
-
 from requests.auth import _basic_auth_str
-from todo_app.views import create_user
+from todo_app.app import create_app
 from todo_app.models import Todo, TodoList
+from todo_app.models import db as _db
+from todo_app.views import create_user
 
+from tests.factory import UserFactory
 
 TESTDB = "test_project.db"
 TESTDB_PATH = "./{}".format(TESTDB)
@@ -73,6 +72,7 @@ def session(db, request):
     request.addfinalizer(teardown)
     return session
 
+
 @pytest.fixture(scope="session")
 def _user():
     return {"username": "test", "password": "pass"}
@@ -89,7 +89,7 @@ def user(session, _user):
 @pytest.fixture(scope="function")
 def test_client(app, user, _user):
     client = app.test_client()
-    client.environ_base['HTTP_AUTHORIZATION'] = _basic_auth_str(**_user)
+    client.environ_base["HTTP_AUTHORIZATION"] = _basic_auth_str(**_user)
     return client
 
 
@@ -107,4 +107,3 @@ def todo(session, user, todo_list):
     session.add(new_todo)
     session.commit()
     return new_todo
-
