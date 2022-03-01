@@ -44,3 +44,10 @@ def test_get_todos_for_user(session, test_client, user, todo):
     assert response.status_code == 200
     assert todo.id == response.json[0]["id"]
 
+
+def test_complete_todo(session, test_client, user, todo):
+    assert todo.completed != True
+    response = test_client.post(f"todo/{todo.id}/complete")
+    assert response.status_code == 204
+    assert todo.completed == True
+
