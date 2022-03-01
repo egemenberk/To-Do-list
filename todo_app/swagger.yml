@@ -164,6 +164,7 @@ definitions:
     required:
       - text
       - todo_list_id
+      - completed
   TodoList:
     type: object
     properties:

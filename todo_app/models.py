@@ -42,7 +42,7 @@ class Todo(db.Model):
 
     @staticmethod
     def create(todo_list, text, completed):
-        new_todo = Todo(text, completed, todo_list.id)
+        new_todo = Todo(text=text, completed=completed, todo_list_id=todo_list.id)
         db.session.add(new_todo)
         db.session.commit()
         return new_todo
