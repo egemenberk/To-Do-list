@@ -35,7 +35,7 @@ def app(request):
     return app
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture(scope="session")
 def db(app, request):
     """Session-wide test database."""
     if os.path.exists(TESTDB_PATH):
@@ -72,7 +72,7 @@ def session(db, request):
     request.addfinalizer(teardown)
     return session
 
-@pytest.fixture(scope="function")
+@pytest.fixture(scope="session")
 def _user():
     return {"username": "test", "password": "pass"}
 
@@ -102,7 +102,7 @@ def todo_list(session, user):
 
 @pytest.fixture(scope="function")
 def todo(session, user, todo_list):
-    new_todo = Todo(todo_list_id=todo_list.id, text="xxx")
+    new_todo = Todo(todo_list_id=todo_list.id, text="test")
     session.add(new_todo)
     session.commit()
     return new_todo
