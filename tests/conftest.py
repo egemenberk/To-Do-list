@@ -15,6 +15,7 @@ from todo_app.models import Todo, TodoList
 
 TESTDB = "test_project.db"
 TESTDB_PATH = "./{}".format(TESTDB)
+TESTDB_REMOVE_PATH = "./todo_app/{}".format(TESTDB)
 TEST_DATABASE_URI = "sqlite:///" + TESTDB_PATH
 
 
@@ -43,8 +44,8 @@ def db(app, request):
 
     def teardown():
         _db.drop_all()
-        if os.path.exists(TESTDB_PATH):
-            os.unlink(TESTDB_PATH)
+        if os.path.exists(TESTDB_REMOVE_PATH):
+            os.unlink(TESTDB_REMOVE_PATH)
 
     _db.app = app
     _db.create_all()
