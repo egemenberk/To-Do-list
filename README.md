@@ -45,5 +45,6 @@ pytest tests/
 ```
 
 # Todos of the project
-requirements.txt does not include versions, which might introduce dependency issues later on
+- requirements.txt does not include versions, which might introduce dependency issues later on
+- Integration of factory classes with database is problematic, fix that to utilize testing tools better
 
