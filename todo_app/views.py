@@ -1,11 +1,12 @@
 from flask import abort
 
 from todo_app.models import Todo, TodoList, User, db
-from todo_app.schema import TodoListSchema, TodoSchema
+from todo_app.schema import TodoListSchema, TodoSchema, UserSchema
+from sqlalchemy import exc
 
 todo_schema = TodoSchema()
 todo_list_schema = TodoListSchema()
-
+user_schema = UserSchema()
 
 def create_todo(todo, user):
     todo_list_id = todo.pop("todo_list_id")
@@ -37,10 +38,13 @@ def complete_todo(todo_id, user):
 
 
 def create_user(user):
-    new_user = User(**user)
-    db.session.add(new_user)
-    db.session.commit()
-    return new_user
+    try:
+        new_user = User(**user)
+        db.session.add(new_user)
+        db.session.commit()
+    except exc.IntegrityError:
+        abort(400, f"Username already exists")
+    return user_schema.jsonify(new_user), 201
 
 
 def create_todo_list(user):

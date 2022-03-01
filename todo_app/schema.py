@@ -15,3 +15,8 @@ class TodoSchema(ma.Schema):
 class TodoListSchema(ma.Schema):
     class Meta:
         fields = ("id",)
+
+
+class UserSchema(ma.Schema):
+    class Meta:
+        fields = ("id", "username")
