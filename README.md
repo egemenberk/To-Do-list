@@ -12,23 +12,32 @@ git clone git@github.com:egemenberk/To-Do-list.git
 
 ## Install
 ```bash
-cd to-do-list
-mkvirtualenv todo-list-api -p $(which python3)
+cd To-Do-list
+mkvirtualenv todo-list-api -p $(which python3) -r requirements.txt
 setvirtualenvproject
 ```
 
 Connect to postgres and create database
 ```bash
 psql
-# create database todo_list;
-# exit
+create database todo_list;
+exit
+```
+
+Set up python requirements
+```bash
+export FLASK_APP=todo_app/app.py
+flask db init
+flask db migrate
 flask db upgrade
 ```
+
 # Running app
 ```bash
 chmod +x run.sh
 ./run.sh
 ```
+Open http://127.0.0.1:5000/ui/ and test the app by first creating a user via ui
 
 # Running tests
 ```bash
