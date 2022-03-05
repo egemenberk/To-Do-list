@@ -1,1 +1,1 @@
-web: gunicorn app:todo_app/app.py
+web: gunicorn --chdir todo_app app:app
