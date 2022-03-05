@@ -9,3 +9,4 @@ black
 pytest
 factory_boy
 connexion[swagger-ui]
+gunicorn
