@@ -16,7 +16,7 @@ def create_app(settings=None):
     if not settings:
         app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(
             "DATABASE_URL", "postgresql:///todo_list"
-        )
+        ).replace("postgres://", "postgresql://")
         app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     else:
         app.config.update(settings)
