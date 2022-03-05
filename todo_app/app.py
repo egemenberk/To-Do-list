@@ -22,3 +22,4 @@ def create_app(settings=None):
     db.init_app(app)
     Migrate(app, db)
     return app
+

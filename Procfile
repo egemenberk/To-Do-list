@@ -1,1 +1,1 @@
-web: gunicorn --chdir todo_app app:app
+web: gunicorn --chdir todo_app wsgi:main
