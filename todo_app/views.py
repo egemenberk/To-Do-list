@@ -8,6 +8,7 @@ todo_schema = TodoSchema()
 todo_list_schema = TodoListSchema()
 user_schema = UserSchema()
 
+
 def create_todo(todo, user):
     todo_list_id = todo.pop("todo_list_id")
     todo_list = TodoList.query.filter(TodoList.id == todo_list_id).one_or_none()
