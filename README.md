@@ -52,6 +52,12 @@ heroku run python
 ```
 Then create tables in remote database as well by doing steps in [here](#create-tables)
 
+# PlayGround
+Open deployed [example app from here](https://app-erere.herokuapp.com/ui/), it is free tier, it will stop after it is being used a lot.
+- Create user
+- Authorize yourself
+- Use the APIs
+
 # Running tests
 ```bash
 pytest tests/
